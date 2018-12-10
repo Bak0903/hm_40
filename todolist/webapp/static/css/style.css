@@ -1,0 +1,10 @@
+body {
+    font-family: Arial, sans-serif;
+    background: url("../img/wallhaven-709656.jpg");
+}
+
+table {
+    display: block;
+    width: 940px;
+    margin: 0 auto;
+}

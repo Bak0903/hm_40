@@ -1,0 +1,109 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Задачи</h1>
+
+    <table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Название</th>
+      <th scope="col">Описание</th>
+        <th scope="col">Статус</th>
+      <th scope="col">Дата создания</th>
+        <th scope="col" colspan="2">Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+        {% for task in tasks %}
+         <tr>
+            <td> {{ task.name }}</td>
+            <td >{{ task.description }}</td>
+            <td >{{ task.status }}</td>
+            <td >{{ task.created_at }}</td>
+            <td>
+                {% if task.status != 'Выполнен' %}
+
+                        <a href="{% url 'new_status' task.pk %}">Выполнить</a>
+
+                {% endif %}
+                </td>
+               <td> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal_{{ task.pk }}">Удалить</button>
+
+
+                <div class="modal fade" id="Modal_{{ task.pk }}" tabindex="-1" role="dialog" aria-labelledby="Modal_{{ task.pk }}Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="Modal_{{ task.pk }}Label">Вы уверены?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+               <a class="btn btn-primary" href="{% url 'delete' task.pk %}">Да</a>
+        <a class="btn btn-secondary" href="{% url 'index' %}">Нет</a>
+      </div>
+    </div>
+  </div>
+</div>
+             </td>
+             <td><a href="{% url 'edit' task.pk %}">Редактировать</a></td>
+         </tr>
+
+        {% endfor %}
+  </tbody>
+</table>
+
+    <h2>Добавить новую задачу</h2>
+    <form action="#" method="post">
+        {% include 'form.html' %}
+    </form>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal_dell">Удалить всё!</button>
+
+ <div class="modal fade" id="Modal_dell" tabindex="-1" role="dialog" aria-labelledby="Modal_dellLabel" aria-hidden="true">
+
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="Modal_dellLabel">Вы уверены?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+               <a class="btn btn-primary" href="{% url 'kill_all' %}">Да</a>
+        <a class="btn btn-secondary" href="{% url 'index' %}">Нет</a>
+      </div>
+    </div>
+  </div>
+    </div>
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+	$('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
+</script>
+
+
+
+
+</html>
